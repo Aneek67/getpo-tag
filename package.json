@@ -1,24 +1,17 @@
 {
-  "name": "getpotag",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "getpotag-root",
+  "private": true,
+  "workspaces": [
+    "admin",
+    "customer"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev:admin": "npm --prefix admin run dev",
+    "dev:customer": "npm --prefix customer run dev",
+    "build:admin": "npm --prefix admin run build",
+    "build:customer": "npm --prefix customer run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "devDependencies": {
-    "autoprefixer": "^10.4.27",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^4.2.2",
     "vite": "^8.0.1"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.99.3"
   }
 }

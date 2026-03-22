@@ -86,37 +86,44 @@
 <a href="index.html"><h1 class="text-xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">Getpo Tag</h1></a>
 <p class="text-[10px] font-medium tracking-widest uppercase text-zinc-500 mt-1">Curator Portal</p>
 </div>
-<nav class="flex-1 space-y-1">
-<!-- Dashboard Active -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg font-['Inter'] text-sm font-medium transition-transform active:opacity-80" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="inventory.html">
-<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
-<span>Inventory</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="orders.html">
-<span class="material-symbols-outlined" data-icon="payments">payments</span>
-<span>Orders</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="track.html">
-<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
-<span>Track Order</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="settings.html">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span>Settings</span>
-</a>
-</nav>
+        <nav class="flex-1 space-y-1" id="sidebar-nav">
+            <!-- Dashboard Active -->
+            <a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg font-['Inter'] text-sm font-medium transition-transform active:opacity-80" href="index.html">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span>Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="inventory.html">
+                <span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+                <span>Inventory</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="orders.html">
+                <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                <span>Orders</span>
+            </a>
+            <!-- User Management (Super Admin ONLY) -->
+            <div id="users-nav-item" class="hidden">
+                 <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:translate-x-1 transition-transform font-['Inter'] text-sm font-medium active:opacity-80" href="users.html">
+                    <span class="material-symbols-outlined" data-icon="group">group</span>
+                    <span>User Management</span>
+                </a>
+            </div>
+        </nav>
+        <div class="mt-auto pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50">
+             <button id="sign-out-btn" class="w-full flex items-center gap-3 px-3 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg font-['Inter'] text-sm font-medium transition-colors">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span>Sign Out</span>
+            </button>
+        </div>
 <div class="mt-auto pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50">
-<div class="mt-4 flex items-center gap-3 px-2">
-<img class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS7EIBbB3j52Mb6RKiLhmnHj0_PsvxbovaguetN_Y3tk9YvopZZedIZxhmzCPHWnSNKkYLlc3U8Aw4ihGiB-FqLi4SNyQaDt94bGRNcC7NmPDobyR_4SQvQTck_oxWGuskUAOttocj54qv6UDR3zDe7q1KX27zDOUk01qpB-KE-ZWH8evNRqPDnGeQI5MXOf9mtPOBZCnmUl0Y_NcHfORWwcMDBHIRVSKkIMD90W1Ol8Ak1BUpQTq4qQZou34uJOqwx8DLY8Jlg-w"/>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Admin Profile</p>
-<p class="text-[10px] text-zinc-500 truncate">Curator</p>
-</div>
-</div>
+            <div class="mt-4 flex items-center gap-3 px-2">
+                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs uppercase" id="user-avatar-initials">
+                    AD
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold truncate" id="user-display-email">Admin Profile</p>
+                    <p class="text-[10px] text-zinc-500 truncate uppercase tracking-widest font-bold" id="user-display-role">Curator</p>
+                </div>
+            </div>
 </div>
 </aside>
 <!-- Main Content -->
@@ -234,7 +241,7 @@
 </footer>
 </main>
 <script type="module">
-  import { supabase } from './src/supabaseClient.js';
+  import { supabase } from './supabaseClient.js';
 
   function formatPrice(price) {
     const inr = price * 83;
@@ -442,4 +449,31 @@
 
   fetchDashboard();
 </script>
+    <script type="module">
+        import { checkAuth, signOut } from './src/authGuard.js';
+        
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+
+            const { session, profile } = auth;
+            
+            // UI Updates based on Auth
+            document.body.classList.remove('opacity-0');
+            document.getElementById('user-display-email').textContent = session.user.email;
+            document.getElementById('user-display-role').textContent = profile.role;
+            document.getElementById('user-avatar-initials').textContent = session.user.email.substring(0, 2).toUpperCase();
+
+            // Role-based Navigation
+            if (profile.role === 'super_admin') {
+                document.getElementById('users-nav-item').classList.remove('hidden');
+            }
+
+            document.getElementById('sign-out-btn').onclick = signOut;
+        }
+
+        init();
+        
+        // Original page logic below...
+    </script>
 </body></html>

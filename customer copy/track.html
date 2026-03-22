@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Track Order | Getpo Tag</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0059b5",
+                        "on-surface": "#1a1c1d",
+                        "surface": "#f9f9fb",
+                        "surface-container-highest": "#e2e2e4",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c1c6d6",
+                        "primary-container": "#0071e3",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9fb; color: #1a1c1d; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .timeline-bullet.active { background-color: #0059b5; border-color: #0059b5; }
+        .timeline-bullet.completed { background-color: #0059b5; border-color: #0059b5; }
+        .timeline-line.completed { background-color: #0059b5; }
+        .timeline-text.active { color: #1a1c1d; font-weight: 700; }
+        .timeline-text.completed { color: #1a1c1d; font-weight: 600; }
+        .timeline-icon.active, .timeline-icon.completed { color: #ffffff; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-6 font-sans tracking-tight">
+        <a href="index.html" class="text-2xl font-bold tracking-tighter text-zinc-900">Getpo Tag</a>
+        <div class="hidden md:flex items-center gap-8 font-medium">
+            <a href="index.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Market</a>
+            <a href="archive.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Comics</a>
+            <a href="track.html" class="text-primary font-bold">Track Order</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative group hidden md:block">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-zinc-400 text-sm">search</span>
+                </div>
+                <input class="pl-10 pr-4 py-1.5 bg-zinc-100 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-48 transition-all focus:w-64" placeholder="Search archive..." type="text"/>
+            </div>
+            <a href="cart.html" class="text-zinc-500 hover:text-zinc-900 transition-colors flex items-center">
+                <span class="material-symbols-outlined">shopping_bag</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-32 pb-24 px-6 flex flex-col items-center justify-center">
+        
+        <div class="w-full max-w-2xl mx-auto space-y-12">
+            <!-- Header Text -->
+            <div class="text-center space-y-4">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold tracking-widest uppercase">Order Status</span>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight text-on-surface">Track Your Order</h1>
+                <p class="text-zinc-500 font-medium">Enter your tracking number below to see real-time updates on your comic's journey.</p>
+            </div>
+
+            <!-- Search Box -->
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-zinc-100/50">
+                <form id="track-form" class="flex items-center gap-4">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-4 flex items-center text-zinc-400 font-mono">#</span>
+                        <input id="order-id-input" type="text" placeholder="GLY-8842" required class="w-full pl-8 pr-4 py-4 bg-zinc-50 border border-zinc-200 rounded-xl font-mono text-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all uppercase" />
+                    </div>
+                    <button type="submit" class="px-8 py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-container transition-colors shadow-lg shadow-primary/20 flex items-center gap-2">
+                        Track <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </form>
+                <div id="error-message" class="hidden mt-4 text-sm font-semibold text-red-500 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">error</span> order not found. Please check your ID and try again.
+                </div>
+            </div>
+
+            <!-- Tracking Result (Hidden initially) -->
+            <div id="tracking-result" class="hidden bg-surface-container-lowest p-8 md:p-12 rounded-2xl shadow-sm border border-zinc-100/50 space-y-12">
+                <!-- Order Info -->
+                <div class="flex items-start justify-between border-b border-zinc-100 pb-8">
+                    <div>
+                        <p class="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">Order Details</p>
+                        <h2 id="result-order-id" class="text-2xl font-black font-mono tracking-tight text-on-surface">#GLY-8842</h2>
+                        <p id="result-curator" class="text-sm font-medium text-zinc-500 mt-2">Placed by <span class="text-zinc-900">Arjun Sharma</span></p>
+                        <div id="result-delivery" class="mt-2"></div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">Status</p>
+                        <span id="result-status-badge" class="inline-block px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-bold tracking-widest uppercase">Making</span>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="relative pt-4">
+                    <!-- Progress Line Background -->
+                    <div class="absolute top-8 left-0 w-full h-1 bg-zinc-100 rounded-full transform -translate-y-1/2 z-0"></div>
+                    
+                    <!-- Dynamic Progress Line -->
+                    <div id="progress-line" class="absolute top-8 left-0 h-1 bg-primary rounded-full transform -translate-y-1/2 z-0 transition-all duration-1000 ease-in-out" style="width: 0%;"></div>
+
+                    <!-- Steps Container -->
+                    <div class="relative z-10 flex justify-between">
+                        
+                        <!-- Step 1: Received -->
+                        <div class="flex flex-col items-center w-1/4 group" id="step-received">
+                            <div class="w-10 h-10 rounded-full border-4 border-white bg-zinc-200 text-zinc-400 flex items-center justify-center font-bold text-sm shadow-sm transition-colors duration-500 timeline-bullet" data-step="1">
+                                <span class="material-symbols-outlined text-[18px] timeline-icon">inventory_2</span>
+                            </div>
+                            <span class="mt-4 text-[11px] uppercase tracking-widest font-semibold text-zinc-400 text-center timeline-text">Received</span>
+                        </div>
+
+                        <!-- Step 2: Making -->
+                        <div class="flex flex-col items-center w-1/4 group" id="step-making">
+                            <div class="w-10 h-10 rounded-full border-4 border-white bg-zinc-200 text-zinc-400 flex items-center justify-center font-bold text-sm shadow-sm transition-colors duration-500 timeline-bullet" data-step="2">
+                                <span class="material-symbols-outlined text-[18px] timeline-icon">design_services</span>
+                            </div>
+                            <span class="mt-4 text-[11px] uppercase tracking-widest font-semibold text-zinc-400 text-center timeline-text">Making</span>
+                        </div>
+
+                        <!-- Step 3: Out for Delivery -->
+                        <div class="flex flex-col items-center w-1/4 group" id="step-out">
+                            <div class="w-10 h-10 rounded-full border-4 border-white bg-zinc-200 text-zinc-400 flex items-center justify-center font-bold text-sm shadow-sm transition-colors duration-500 timeline-bullet" data-step="3">
+                                <span class="material-symbols-outlined text-[18px] timeline-icon">local_shipping</span>
+                            </div>
+                            <span class="mt-4 text-[11px] uppercase tracking-widest font-semibold text-zinc-400 text-center timeline-text">Out for<br/>Delivery</span>
+                        </div>
+
+                        <!-- Step 4: Delivered -->
+                        <div class="flex flex-col items-center w-1/4 group" id="step-delivered">
+                            <div class="w-10 h-10 rounded-full border-4 border-white bg-zinc-200 text-zinc-400 flex items-center justify-center font-bold text-sm shadow-sm transition-colors duration-500 timeline-bullet" data-step="4">
+                                <span class="material-symbols-outlined text-[18px] timeline-icon">check_circle</span>
+                            </div>
+                            <span class="mt-4 text-[11px] uppercase tracking-widest font-semibold text-zinc-400 text-center timeline-text">Delivered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Step Description -->
+                <div class="bg-zinc-50 p-6 rounded-xl border border-zinc-100 flex gap-4 mt-8">
+                    <span id="step-desc-icon" class="material-symbols-outlined text-primary mt-0.5">info</span>
+                    <div>
+                        <h4 id="step-desc-title" class="text-sm font-bold text-zinc-900 mb-1">Order Received</h4>
+                        <p id="step-desc-text" class="text-xs text-zinc-500 leading-relaxed">We have received your order details and payment confirmation. Our team will begin preparing your comic for production shortly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 bg-white border-t border-zinc-100 mt-auto">
+        <div class="flex flex-col items-center gap-6 max-w-7xl mx-auto px-6">
+            <h2 class="text-xl font-black tracking-tighter text-zinc-900">Getpo Tag</h2>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-zinc-400 hover:text-primary transition-colors" href="#">FAQ</a>
+                <a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-zinc-400 hover:text-primary transition-colors" href="#">Support</a>
+                <a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-zinc-400 hover:text-primary transition-colors" href="#">Shipping Details</a>
+                <a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-zinc-400 hover:text-primary transition-colors" href="#">Terms & Conditions</a>
+            </div>
+            <p class="text-zinc-400 text-[10px] font-medium mt-4">© 2024 Getpo Tag. Editorial Excellence in Comics.</p>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        const form = document.getElementById('track-form');
+        const input = document.getElementById('order-id-input');
+        const errorMsg = document.getElementById('error-message');
+        const resultSection = document.getElementById('tracking-result');
+
+        const descriptions = {
+            'received': {
+                title: 'Order Received',
+                text: 'We have received your order details and payment confirmation. Our team will begin preparing your comic for production shortly.',
+                icon: 'inventory_2',
+                badgeStyle: 'bg-orange-50 text-orange-600'
+            },
+            'making': {
+                title: 'In Production',
+                text: 'Your comic is currently in our curatorial and bounding process. We are carefully inspecting and preparing the archival packaging.',
+                icon: 'design_services',
+                badgeStyle: 'bg-blue-50 text-blue-600'
+            },
+            'out_for_delivery': {
+                title: 'Out for Delivery',
+                text: 'Your order has been handed over to our delivery partners and is on its way to your specified block and flat number.',
+                icon: 'local_shipping',
+                badgeStyle: 'bg-indigo-50 text-indigo-600'
+            },
+            'delivered': {
+                title: 'Delivered Successfully',
+                text: 'Your comic has been delivered! We hope you enjoy adding this piece to your collection.',
+                icon: 'check_circle',
+                badgeStyle: 'bg-emerald-50 text-emerald-600'
+            }
+        };
+
+        const statusScores = {
+            'received': 1,
+            'making': 2,
+            'out_for_delivery': 3,
+            'delivered': 4
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Clean input
+            let orderId = input.value.trim().toUpperCase();
+            if (orderId.startsWith('#')) {
+                orderId = orderId.substring(1);
+            }
+
+            if (!orderId) return;
+
+            // Reset UI
+            errorMsg.classList.add('hidden');
+            resultSection.classList.add('hidden');
+
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('*')
+                .eq('order_id', orderId);
+
+            if (error || !orders || orders.length === 0) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            const order = orders[0];
+            updateTimelineUI(order);
+        });
+
+        function updateTimelineUI(order) {
+            // Update Base Text
+            document.getElementById('result-order-id').textContent = '#' + order.order_id;
+            document.getElementById('result-curator').innerHTML = `Placed by <span class="text-zinc-900">${order.curator_name}</span>`;
+
+            // Delivery method badge
+            const deliveryEl = document.getElementById('result-delivery');
+            if (order.delivery_method === 'pickup') {
+                deliveryEl.innerHTML = `
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-1 rounded-full"><span class="material-symbols-outlined" style="font-size:11px">storefront</span>Pick Up</span>
+                    <p class="text-xs text-zinc-500 mt-1.5">📍 Ninth Block, 1005, 10th Floor</p>`;
+            } else {
+                deliveryEl.innerHTML = `<span class="inline-flex items-center gap-1 text-[10px] font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded-full"><span class="material-symbols-outlined" style="font-size:11px">local_shipping</span>Home Delivery</span>`;
+            }
+
+            const status = order.status; // received, making, out_for_delivery, delivered
+            const score = statusScores[status] || 1;
+
+            // Update Badge
+            const badge = document.getElementById('result-status-badge');
+            badge.textContent = status.replace(/_/g, ' ');
+            badge.className = `inline-block px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase ${descriptions[status].badgeStyle}`;
+
+            // Update Description
+            document.getElementById('step-desc-icon').textContent = descriptions[status].icon;
+            document.getElementById('step-desc-title').textContent = descriptions[status].title;
+            document.getElementById('step-desc-text').textContent = descriptions[status].text;
+
+            // Update Timeline Node Visuals
+            const steps = [
+                { id: 'step-received', el: document.getElementById('step-received') },
+                { id: 'step-making', el: document.getElementById('step-making') },
+                { id: 'step-out', el: document.getElementById('step-out') },
+                { id: 'step-delivered', el: document.getElementById('step-delivered') }
+            ];
+
+            steps.forEach((step, index) => {
+                const stepScore = index + 1;
+                const bullet = step.el.querySelector('.timeline-bullet');
+                const text = step.el.querySelector('.timeline-text');
+                const icon = step.el.querySelector('.timeline-icon');
+
+                // Reset
+                bullet.classList.remove('active', 'completed');
+                text.classList.remove('active', 'completed');
+                icon.classList.remove('active', 'completed');
+
+                if (stepScore < score) {
+                    bullet.classList.add('completed');
+                    text.classList.add('completed');
+                    icon.classList.add('completed');
+                } else if (stepScore === score) {
+                    bullet.classList.add('active');
+                    text.classList.add('active');
+                    icon.classList.add('active');
+                }
+            });
+
+            // Update Progress Line
+            // Math: 
+            // score 1 -> width: 0%
+            // score 2 -> width: 33.3%
+            // score 3 -> width: 66.6%
+            // score 4 -> width: 100%
+            const percentage = ((score - 1) / 3) * 100;
+            const progressLine = document.getElementById('progress-line');
+            progressLine.style.width = `${percentage}%`;
+
+            // Finally, show the result container
+            resultSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

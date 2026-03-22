@@ -1,7 +1,13 @@
-node_modules
-.DS_Store
-dist
+# Dependencies
+node_modules/
+
+# Environment variables (contains Supabase keys — never commit this!)
 .env
 .env.local
-.vscode
-*.log
+.env.production
+
+# Build output
+dist/
+
+# macOS
+.DS_Store

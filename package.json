@@ -1,17 +1,20 @@
 {
-  "name": "getpotag-root",
+  "name": "getpotag-customer",
   "private": true,
-  "workspaces": [
-    "admin",
-    "customer"
-  ],
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev:admin": "npm --prefix admin run dev",
-    "dev:customer": "npm --prefix customer run dev",
-    "build:admin": "npm --prefix admin run build",
-    "build:customer": "npm --prefix customer run build"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.3"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
     "vite": "^8.0.1"
   }
 }

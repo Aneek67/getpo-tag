@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout | Getpo Tag</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#46464b",
+              "on-tertiary-fixed": "#1a1b1f",
+              "tertiary-container": "#737378",
+              "surface-container-high": "#e8e8ea",
+              "on-primary-container": "#fcfbff",
+              "surface-variant": "#e2e2e4",
+              "surface-container": "#eeeef0",
+              "outline": "#717785",
+              "on-tertiary": "#ffffff",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#c7c6cb",
+              "on-error-container": "#93000a",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#abc7ff",
+              "secondary-container": "#e2dfe1",
+              "primary-fixed": "#d7e2ff",
+              "on-surface": "#1a1c1d",
+              "surface-container-highest": "#e2e2e4",
+              "on-background": "#1a1c1d",
+              "inverse-surface": "#2f3132",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#c8c6c8",
+              "primary-fixed-dim": "#abc7ff",
+              "primary-container": "#0071e3",
+              "background": "#f9f9fb",
+              "surface": "#f9f9fb",
+              "secondary": "#5f5e60",
+              "on-secondary-fixed": "#1b1b1d",
+              "error-container": "#ffdad6",
+              "outline-variant": "#c1c6d6",
+              "on-primary-fixed-variant": "#00458f",
+              "on-secondary-fixed-variant": "#474649",
+              "primary": "#0059b5",
+              "surface-tint": "#005cbb",
+              "tertiary-fixed": "#e3e2e7",
+              "surface-dim": "#d9dadc",
+              "on-surface-variant": "#414753",
+              "on-primary-fixed": "#001b3f",
+              "inverse-on-surface": "#f0f0f2",
+              "on-secondary-container": "#636264",
+              "surface-container-low": "#f3f3f5",
+              "surface-bright": "#f9f9fb",
+              "secondary-fixed": "#e4e2e4",
+              "on-tertiary-container": "#fcfaff",
+              "on-error": "#ffffff",
+              "tertiary": "#5a5b5f",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top Navigation Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-6 font-sans tracking-tight">
+        <a href="index.html" class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50">Getpo Tag</a>
+        <div class="hidden md:flex items-center gap-8 font-medium">
+            <a href="index.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Market</a>
+            <a href="archive.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Comics</a>
+            <a href="track.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Track Order</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative group hidden md:block">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-zinc-400 text-sm">search</span>
+                </div>
+                <input class="pl-10 pr-4 py-1.5 bg-zinc-100 dark:bg-zinc-800 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-48 transition-all focus:w-64" placeholder="Search archive..." type="text"/>
+            </div>
+            <a href="cart.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center">
+                <span class="material-symbols-outlined">shopping_bag</span>
+            </a>
+        </div>
+    </header>
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Left Column: Checkout Form & Cart Items -->
+<div class="lg:col-span-7 space-y-20">
+<!-- Section: Cart Overview -->
+<section>
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-3xl font-bold tracking-tighter text-on-surface">Curated Selection</h2>
+<span id="cart-item-count" class="text-sm label-sm text-on-surface-variant tracking-widest uppercase">1 ITEM</span>
+</div>
+<div id="cart-items-container" class="space-y-6">
+    <div class="animate-pulse text-on-surface-variant text-sm font-medium">Loading items...</div>
+</div>
+</section>
+<!-- Section: Guest Checkout Form -->
+<section class="space-y-12">
+<div class="space-y-4">
+<h2 class="text-3xl font-bold tracking-tighter text-on-surface">Guest Checkout</h2>
+<p class="text-on-surface-variant">Continue as a guest to complete your curation. No account required.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+<!-- Contact -->
+<div class="md:col-span-2 space-y-4">
+<label class="text-xs label-sm text-on-surface-variant tracking-widest uppercase">CONTACT INFORMATION</label>
+<input class="w-full bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Email Address" type="email"/>
+</div>
+<!-- Shipping/Pickup Toggle -->
+<div class="md:col-span-2 space-y-4 pt-4">
+    <label class="text-xs label-sm text-on-surface-variant tracking-widest uppercase">DELIVERY METHOD</label>
+    <div class="grid grid-cols-2 gap-4">
+        <button id="btn-ship" onclick="setDelivery('ship')" class="flex flex-col items-center gap-2 py-5 px-4 rounded-xl border-2 border-primary bg-surface-container-lowest shadow-sm transition-all">
+            <span class="material-symbols-outlined text-primary">local_shipping</span>
+            <span class="text-sm font-bold text-on-surface">Ship to Home</span>
+            <span class="text-xs text-on-surface-variant">+ ₹1 shipping</span>
+        </button>
+        <button id="btn-pickup" onclick="setDelivery('pickup')" class="flex flex-col items-center gap-2 py-5 px-4 rounded-xl border-2 border-outline-variant bg-transparent transition-all hover:border-primary/50">
+            <span class="material-symbols-outlined text-on-surface-variant">storefront</span>
+            <span class="text-sm font-bold text-on-surface">Pick Up</span>
+            <span class="text-xs text-on-surface-variant">Free · Ninth Block</span>
+        </button>
+    </div>
+</div>
+<!-- Name fields (always shown) -->
+<div class="md:col-span-2">
+    <div class="grid grid-cols-2 gap-4">
+        <input id="first-name" class="bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="First Name" type="text"/>
+        <input id="last-name" class="bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Last Name" type="text"/>
+    </div>
+</div>
+<!-- Ship: Block and Flat fields (only for home delivery) -->
+<div id="ship-address-fields" class="md:col-span-2">
+    <div class="grid grid-cols-2 gap-4">
+        <input id="block-number" class="bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Block Number" type="text"/>
+        <input id="flat-number" class="bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Flat / House Number" type="text"/>
+    </div>
+</div>
+<!-- Pickup: Static address info (only shown for pickup) -->
+<div id="pickup-address-info" class="md:col-span-2 hidden">
+    <div class="flex items-start gap-4 p-5 bg-surface-container-low rounded-xl border border-outline-variant/20">
+        <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
+        <div>
+            <p class="text-sm font-bold text-on-surface mb-1">Pick-up Location</p>
+            <p class="text-sm text-on-surface-variant leading-relaxed">Ninth Block, 1005, 10th Floor</p>
+            <p class="text-xs text-primary font-medium mt-2">Free pick-up · No shipping charge</p>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sticky) -->
+<div class="lg:col-span-5">
+<div class="sticky top-32 space-y-8">
+<div class="bg-surface-container-lowest p-8 lg:p-10 rounded-2xl shadow-[0_20px_40px_rgba(26,28,29,0.06)] border border-outline-variant/10">
+<h3 class="text-xl font-bold tracking-tight text-on-surface mb-8">Order Summary</h3>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span id="cart-subtotal" class="text-on-surface">...</span>
+</div>
+<div id="shipping-row" class="flex justify-between text-on-surface-variant">
+    <span>Shipping</span>
+    <span class="text-on-surface font-medium">₹1</span>
+</div>
+<div id="insurance-row" class="hidden flex justify-between text-on-surface-variant">
+    <span>Vault Insurance (Optional)</span>
+    <span id="insurance-price" class="text-on-surface">...</span>
+</div>
+</div>
+<div class="pt-8 border-t border-surface-container flex justify-between items-end mb-10">
+<div>
+<p class="text-xs label-sm text-on-surface-variant tracking-widest uppercase mb-1">TOTAL ESTIMATE</p>
+<p id="cart-total" class="text-4xl font-black tracking-tighter text-on-surface">...</p>
+</div>
+                        <span class="text-xs text-on-surface-variant">INR</span>
+</div>
+<button id="place-order-btn" class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-bold text-lg shadow-lg hover:shadow-primary/20 transition-all active:scale-[0.98]">
+                            Place Order
+                        </button>
+<div class="mt-8 flex items-center justify-center gap-6">
+<span class="material-symbols-outlined text-zinc-300">verified_user</span>
+<span class="material-symbols-outlined text-zinc-300">lock</span>
+<span class="material-symbols-outlined text-zinc-300">local_shipping</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<p class="text-xs font-medium text-on-surface-variant leading-relaxed">Every issue in <span class="text-on-surface font-semibold">Getpo Tag</span> is physically inspected and white-glove packaged in acid-free Mylar. Estimated arrival for limited editions: 3-5 business days.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<script type="module">
+    import { supabase } from './supabaseClient.js';
+
+    function formatPrice(price) {
+        const inr = price * 83;
+        return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+    }
+
+    let currentItemId = null;
+    const SHIPPING_INR = 1; // ₹1 flat rate for home delivery
+    let currentDeliveryMode = 'ship'; // 'ship' | 'pickup'
+    let currentItemPrice = 0;
+
+
+    window.setDelivery = function(mode) {
+        currentDeliveryMode = mode;
+
+        const btnShip = document.getElementById('btn-ship');
+        const btnPickup = document.getElementById('btn-pickup');
+        const shipFields = document.getElementById('ship-address-fields');
+        const pickupInfo = document.getElementById('pickup-address-info');
+
+        if (mode === 'ship') {
+            btnShip.classList.add('border-primary', 'bg-surface-container-lowest', 'shadow-sm');
+            btnShip.classList.remove('border-outline-variant', 'bg-transparent');
+            btnPickup.classList.remove('border-primary', 'bg-surface-container-lowest', 'shadow-sm');
+            btnPickup.classList.add('border-outline-variant', 'bg-transparent');
+            shipFields.classList.remove('hidden');
+            pickupInfo.classList.add('hidden');
+        } else {
+            btnPickup.classList.add('border-primary', 'bg-surface-container-lowest', 'shadow-sm');
+            btnPickup.classList.remove('border-outline-variant', 'bg-transparent');
+            btnShip.classList.remove('border-primary', 'bg-surface-container-lowest', 'shadow-sm');
+            btnShip.classList.add('border-outline-variant', 'bg-transparent');
+            shipFields.classList.add('hidden');
+            pickupInfo.classList.remove('hidden');
+        }
+
+        updateTotal();
+    };
+
+
+    function updateTotal() {
+        const subtotalInr = currentItemPrice * 83;
+        let total = subtotalInr;
+
+        if (currentDeliveryMode === 'ship') {
+            total += SHIPPING_INR;
+            document.getElementById('shipping-row').classList.remove('hidden');
+        } else {
+            document.getElementById('shipping-row').classList.add('hidden');
+        }
+
+        document.getElementById('cart-total').innerText = `₹${total.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+    }
+
+    async function initCart() {
+        const urlParams = new URLSearchParams(window.location.search);
+        currentItemId = urlParams.get('id');
+
+        const container = document.getElementById('cart-items-container');
+
+        if (!currentItemId) {
+            container.innerHTML = '<div class="text-error font-medium p-4 bg-error-container rounded-lg">Your cart is empty. Return to the archive to select an item.</div>';
+            document.getElementById('place-order-btn').disabled = true;
+            return;
+        }
+
+        const { data: item, error } = await supabase
+            .from('items')
+            .select('*')
+            .eq('id', currentItemId)
+            .single();
+
+        if (error || !item) {
+            console.error('Error fetching item:', error);
+            container.innerHTML = '<div class="text-error font-medium p-4 bg-error-container rounded-lg">Failed to load item. It may have been removed.</div>';
+            document.getElementById('place-order-btn').disabled = true;
+            return;
+        }
+
+        currentItemPrice = item.price;
+
+        // Render item
+        container.innerHTML = `
+            <div class="flex gap-6 group">
+                <div class="w-32 aspect-[3/4] overflow-hidden rounded-lg bg-surface-container shadow-sm">
+                    <img src="${item.image_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="flex-1 flex flex-col justify-between py-2">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-semibold text-on-surface">${item.title}</h3>
+                            <p class="font-medium text-on-surface">${formatPrice(item.price)}</p>
+                        </div>
+                        <p class="text-sm text-on-surface-variant mt-1">${item.subtitle || 'Standard Edition'}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('cart-subtotal').innerText = formatPrice(item.price);
+        updateTotal();
+    }
+
+    initCart();
+
+    document.getElementById('place-order-btn').addEventListener('click', async () => {
+        if (!currentItemId) return;
+
+        const firstName = document.getElementById('first-name').value.trim();
+        const lastName = document.getElementById('last-name').value.trim();
+
+        if (!firstName || !lastName) {
+            alert('Please enter your first and last name.');
+            return;
+        }
+
+        // Ship to Home: require block + flat number
+        let blockNumber = '';
+        let flatNumber = '';
+        if (currentDeliveryMode === 'ship') {
+            blockNumber = document.getElementById('block-number').value.trim();
+            flatNumber = document.getElementById('flat-number').value.trim();
+            if (!blockNumber || !flatNumber) {
+                alert('Please enter your block number and flat/house number for delivery.');
+                return;
+            }
+        } else {
+            // Pickup: use static store address
+            blockNumber = 'Ninth Block';
+            flatNumber = '1005, 10th Floor';
+        }
+
+
+        const btn = document.getElementById('place-order-btn');
+        btn.disabled = true;
+        btn.textContent = 'Processing...';
+
+        const orderId = 'GLY-' + Math.floor(1000 + Math.random() * 9000);
+
+        const { data, error } = await supabase
+            .from('orders')
+            .insert([{
+                order_id: orderId,
+                curator_name: `${firstName} ${lastName}`,
+                block_number: blockNumber || null,
+                flat_number: flatNumber || null,
+                delivery_method: currentDeliveryMode,
+                status: 'received',
+                item_id: currentItemId
+            }]);
+
+        if (error) {
+            console.error('Error placing order:', error);
+            alert('Failed to place order. Please try again.');
+            btn.disabled = false;
+            btn.textContent = 'Place Order';
+        } else {
+            setTimeout(() => {
+                window.location.href = `order-confirmation.html?id=${orderId}`;
+            }, 1000);
+        }
+    });
+</script>
+<!-- Footer -->
+<footer class="bg-zinc-50 dark:bg-zinc-950 w-full py-12 border-t-0 font-['Inter'] text-xs tracking-widest uppercase">
+<div class="flex flex-col items-center gap-6 max-w-7xl mx-auto">
+<div class="flex gap-8 text-zinc-400 dark:text-zinc-500">
+<a class="hover:text-blue-600 transition-colors" href="#">Privacy</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Terms</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Shipping</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Contact</a>
+</div>
+<p class="text-zinc-400 dark:text-zinc-500">© 2024 Getpo Tag. Editorial Excellence in Comics.</p>
+</div>
+</footer>
+</body></html>

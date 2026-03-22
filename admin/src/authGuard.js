@@ -1,4 +1,4 @@
-import { supabase } from '../supabaseclient.js';
+import { supabase } from '../supabaseClient.js';
 
 export async function checkAuth() {
     // 1. Check for special local staff session first (fallback for broken Supabase project)

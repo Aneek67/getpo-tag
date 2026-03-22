@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comics — Getpo Tag</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    font-size: 20px;
+  }
+  .comic-card img { aspect-ratio: 2/3; object-fit: cover; }
+</style>
+</head>
+<body class="bg-white text-zinc-900 antialiased">
+
+  <!-- Navigation -->
+  <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100 h-16 flex items-center justify-between px-6">
+    <a href="index.html" class="text-xl font-black tracking-tighter text-zinc-900">Getpo Tag</a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="index.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Market</a>
+      <a href="archive.html" class="text-zinc-900 font-bold">Comics</a>
+      <a href="track.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Track Order</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div class="relative hidden md:block">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none">search</span>
+        <input id="search-input" type="text" placeholder="Search comics..." class="pl-10 pr-4 py-1.5 bg-zinc-100 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-48 focus:w-64 transition-all outline-none"/>
+      </div>
+      <a href="cart.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">
+        <span class="material-symbols-outlined">shopping_bag</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="pt-28 pb-24 max-w-7xl mx-auto px-6">
+
+    <!-- Page Header -->
+    <div class="mb-12">
+      <h1 class="text-5xl font-black tracking-tight mb-2">Browse Comics</h1>
+      <p id="item-count" class="text-sm text-zinc-400 font-medium">Loading...</p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="py-24 text-center text-zinc-400 text-sm animate-pulse">
+      Fetching the collection...
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden py-24 text-center">
+      <span class="material-symbols-outlined text-5xl text-zinc-200 block mb-4">auto_stories</span>
+      <p class="text-zinc-400 text-sm">No comics found. Check back soon!</p>
+    </div>
+
+    <!-- Comics Grid -->
+    <div id="comics-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+      <!-- Populated dynamically -->
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-100 py-8 bg-zinc-50">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <span class="font-black tracking-tight text-zinc-900">Getpo Tag</span>
+      <p class="text-xs text-zinc-400">© 2024 Getpo Tag. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script type="module">
+  import { supabase } from './src/supabaseClient.js';
+
+  function formatPrice(price) {
+    const inr = price * 83;
+    return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+  }
+
+  let allItems = [];
+
+  function renderGrid(items) {
+    const grid = document.getElementById('comics-grid');
+    const empty = document.getElementById('empty-state');
+
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+
+    empty.classList.add('hidden');
+    grid.innerHTML = items.map(item => `
+      <a href="product.html?id=${item.id}" class="comic-card group block">
+        <div class="relative overflow-hidden rounded-2xl mb-4 bg-zinc-100">
+          <img src="${item.image_url || ''}" alt="${item.title}" class="w-full group-hover:scale-105 transition-transform duration-500 rounded-2xl"/>
+          ${item.tag ? `
+            <div class="absolute top-3 left-3">
+              <span class="bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">${item.tag}</span>
+            </div>
+          ` : ''}
+        </div>
+        <h3 class="font-bold text-zinc-900 text-base leading-tight mb-1 group-hover:text-blue-600 transition-colors">${item.title}</h3>
+        <p class="text-zinc-400 text-xs mb-2 truncate">${item.author ? 'By ' + item.author : ''}</p>
+        <p class="font-black text-zinc-900 text-sm">${formatPrice(item.price)}</p>
+      </a>
+    `).join('');
+  }
+
+  async function loadComics() {
+    const { data: items, error } = await supabase
+      .from('items')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    document.getElementById('loading-state').classList.add('hidden');
+
+    if (error || !items) {
+      document.getElementById('item-count').textContent = 'Could not load comics.';
+      return;
+    }
+
+    allItems = items;
+    document.getElementById('item-count').textContent = `${items.length} comic${items.length !== 1 ? 's' : ''} in the collection`;
+    renderGrid(allItems);
+  }
+
+  // Live search filtering
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = allItems.filter(item =>
+      (item.title || '').toLowerCase().includes(query) ||
+      (item.author || '').toLowerCase().includes(query)
+    );
+    renderGrid(filtered);
+  });
+
+  loadComics();
+</script>
+
+</body>
+</html>

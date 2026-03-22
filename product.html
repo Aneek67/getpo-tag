@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "primary-container": "#0071e3",
+              "surface-container-high": "#e8e8ea",
+              "on-surface-variant": "#414753",
+              "on-tertiary-fixed": "#1a1b1f",
+              "on-surface": "#1a1c1d",
+              "tertiary": "#5a5b5f",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "inverse-on-surface": "#f0f0f2",
+              "tertiary-fixed": "#e3e2e7",
+              "outline": "#717785",
+              "primary": "#0059b5",
+              "primary-fixed-dim": "#abc7ff",
+              "surface": "#f9f9fb",
+              "outline-variant": "#c1c6d6",
+              "on-tertiary-container": "#fcfaff",
+              "secondary-container": "#e2dfe1",
+              "secondary-fixed": "#e4e2e4",
+              "on-secondary-fixed": "#1b1b1d",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#636264",
+              "secondary": "#5f5e60",
+              "inverse-primary": "#abc7ff",
+              "surface-tint": "#005cbb",
+              "surface-container": "#eeeef0",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#46464b",
+              "surface-variant": "#e2e2e4",
+              "error": "#ba1a1a",
+              "tertiary-fixed-dim": "#c7c6cb",
+              "on-background": "#1a1c1d",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#474649",
+              "surface-dim": "#d9dadc",
+              "background": "#f9f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#00458f",
+              "on-primary-container": "#fcfbff",
+              "surface-bright": "#f9f9fb",
+              "surface-container-highest": "#e2e2e4"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-6 font-sans tracking-tight">
+        <a href="index.html" class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50">Getpo Tag</a>
+        <div class="hidden md:flex items-center gap-8 font-medium">
+            <a href="index.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Market</a>
+            <a href="archive.html" class="text-zinc-900 font-bold transition-colors">Comics</a>
+            <a href="track.html" class="text-zinc-500 hover:text-zinc-900 transition-colors">Track Order</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative group hidden md:block">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-zinc-400 text-sm">search</span>
+                </div>
+                <input class="pl-10 pr-4 py-1.5 bg-zinc-100 dark:bg-zinc-800 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-48 transition-all focus:w-64" placeholder="Search archive..." type="text"/>
+            </div>
+            <a href="cart.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center">
+                <span class="material-symbols-outlined">shopping_bag</span>
+            </a>
+        </div>
+    </header>
+<main class="pt-24 pb-32">
+<div class="max-w-[1200px] mx-auto px-6">
+<!-- Hero Product Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start" id="product-container">
+<!-- Loading State -->
+<div id="loading-state" class="lg:col-span-12 py-24 text-center text-on-surface-variant animate-pulse font-medium">Retrieving Encrypted Archives...</div>
+
+<!-- Left: Asymmetric Hero Shot -->
+<div class="lg:col-span-7 relative hidden" id="product-hero-left">
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/5 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+<img id="product-image" alt="Comic Cover" class="relative w-full border border-outline-variant/10 rounded-xl shadow-2xl transition-transform duration-700 hover:scale-[1.02]" src=""/>
+</div>
+</div>
+<!-- Right: Purchase & Metadata -->
+<div class="lg:col-span-5 flex-col gap-10 hidden" id="product-hero-right">
+<header class="flex flex-col gap-2">
+<span id="product-tag" class="text-xs font-bold tracking-[0.1em] text-primary uppercase">Special Edition</span>
+<h1 id="product-title" class="text-5xl md:text-6xl font-extrabold tracking-tighter text-on-surface leading-none">...</h1>
+<p id="product-artist" class="text-lg text-primary font-semibold mt-1">...</p>
+<p id="product-subtitle" class="text-xl text-on-surface-variant font-medium mt-2">...</p>
+</header>
+<!-- Pricing Options -->
+<div class="flex flex-col gap-4">
+<div class="p-6 rounded-xl bg-surface-container-lowest border-2 border-primary shadow-sm relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-semibold text-on-surface">Physical Issue</span>
+<span id="product-price" class="text-sm font-bold text-on-surface">...</span>
+</div>
+<p class="text-xs text-on-surface-variant">White-glove delivery in Mylar with certificates of provenance.</p>
+</div>
+</div>
+<!-- CTA Actions -->
+<div class="flex flex-col gap-3">
+<a id="btn-preorder" href="#" class="w-full h-14 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-semibold text-base shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98] flex items-center justify-center">
+    Pre-order Now
+</a>
+</div>
+</div>
+</div>
+</div>
+
+<script type="module">
+    import { supabase } from './src/supabaseClient.js';
+
+    function formatPrice(price) {
+        const inr = price * 83;
+        return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+    }
+
+    async function initProduct() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            document.getElementById('loading-state').innerText = 'No product specified. Return to the archive.';
+            document.getElementById('loading-state').classList.add('text-error');
+            return;
+        }
+
+        const { data: item, error } = await supabase
+            .from('items')
+            .select('*')
+            .eq('id', productId)
+            .single();
+
+        if (error || !item) {
+            document.getElementById('loading-state').innerText = 'Archival record not found.';
+            document.getElementById('loading-state').classList.add('text-error');
+            return;
+        }
+
+        // Hide loading, show content
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('product-hero-left').classList.remove('hidden');
+        document.getElementById('product-hero-right').classList.remove('hidden');
+        document.getElementById('product-hero-right').classList.add('flex');
+
+        // Update UI
+        document.getElementById('product-image').src = item.image_url;
+        document.getElementById('product-title').innerText = item.title;
+        document.getElementById('product-artist').innerText = item.author ? `By ${item.author}` : 'Artist Unknown';
+        document.getElementById('product-subtitle').innerText = item.subtitle || 'Collector\'s Issue';
+        document.getElementById('product-tag').innerText = item.tag || 'Standard Issue';
+        document.getElementById('product-price').innerText = formatPrice(item.price);
+
+        // Update Sticky bar
+        const stickyTitle = document.querySelector('.fixed.bottom-0 .sm\\:flex .font-bold');
+        const stickyPrice = document.querySelector('.fixed.bottom-0 .text-lg.font-bold');
+        const stickyStatus = document.querySelector('.fixed.bottom-0 .text-xs');
+        
+        if (stickyTitle) stickyTitle.innerText = item.title;
+        if (stickyPrice) stickyPrice.innerText = formatPrice(item.price);
+        if (stickyStatus) stickyStatus.innerText = item.tag || 'Available Now';
+
+        // Update Links
+        const cartLink = `cart.html?id=${item.id}`;
+        document.getElementById('btn-preorder').href = cartLink;
+        
+        // Update primary button text based on pre-order status
+        const isPreorder = (item.tag || '').toLowerCase().includes('pre-order');
+        document.getElementById('btn-preorder').innerText = isPreorder ? 'Pre-order Now' : 'Buy Now';
+        
+        const stickyBtn = document.querySelector('.fixed.bottom-0 button');
+        if (stickyBtn) {
+            stickyBtn.onclick = () => window.location.href = cartLink;
+            stickyBtn.innerText = (item.tag || '').toLowerCase().includes('pre-order') ? 'Pre-order Now' : 'Buy Now';
+        }
+
+        // Update Long Description
+        const longDescTitle = document.getElementById('long-desc-title');
+        const longDescText = document.getElementById('long-desc-text');
+        if (longDescTitle) longDescTitle.innerText = item.title;
+        if (longDescText) {
+            longDescText.innerHTML = (item.subtitle || 'No detailed description available.').split('\\n').map(p => '<p>' + p + '</p>').join('');
+        }
+    }
+
+    initProduct();
+</script>
+<!-- Content Divider Section -->
+<div class="mt-32 mb-24 max-w-2xl mx-auto text-center" id="product-long-description-container">
+<h2 class="text-3xl font-bold tracking-tight mb-8" id="long-desc-title"></h2>
+<div class="space-y-6 text-on-surface-variant leading-relaxed text-lg font-light" id="long-desc-text">
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Purchase Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-2xl border-t border-outline-variant/10 z-40 md:py-4 py-3">
+<div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+<div class="hidden sm:flex flex-col">
+<span class="text-sm font-bold tracking-tight text-on-surface">The Last Sentinel #01</span>
+<span class="text-xs text-on-surface-variant">Available for Pre-order</span>
+</div>
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<div class="flex flex-col items-end mr-4 hidden sm:flex">
+<span class="text-[10px] font-bold uppercase text-outline">Starting at</span>
+<span class="text-lg font-bold text-on-surface">$12.00</span>
+</div>
+<button class="flex-1 sm:flex-none px-10 h-12 bg-on-surface text-white rounded-full font-semibold text-sm hover:bg-zinc-800 transition-colors">
+                    Pre-order Now
+                </button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full pt-12 pb-32 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800">
+<div class="max-w-[1200px] mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="font-['Inter'] text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed text-center md:text-left">Copyright © 2024 Getpo Tag. All rights reserved.</div>
+<div class="flex flex-wrap justify-center gap-6 font-['Inter'] text-xs text-zinc-500 dark:text-zinc-400">Copyright © 2024 Getpo Tag. All rights reserved.</div>
+</div>
+</div>
+</footer>
+</body></html>

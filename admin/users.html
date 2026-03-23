@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Users | Curator Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased opacity-0 transition-opacity duration-300" id="admin-body">
+
+    <!-- SideNavBar -->
+    <aside class="h-screen w-64 fixed left-0 top-0 border-r border-zinc-100 bg-zinc-50 flex flex-col p-4 gap-2 z-50">
+        <div class="px-2 py-6">
+            <a href="index.html"><h1 class="text-xl font-black tracking-tighter text-zinc-900">Getpo Tag</h1></a>
+            <p class="text-[10px] font-medium tracking-widest uppercase text-zinc-500 mt-1">Curator Portal</p>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 hover:bg-zinc-100 rounded-lg font-bold text-sm" href="index.html">
+                <span class="material-symbols-outlined text-lg">dashboard</span>
+                <span>Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 hover:bg-zinc-100 rounded-lg font-bold text-sm" href="inventory.html">
+                <span class="material-symbols-outlined text-lg">auto_stories</span>
+                <span>Inventory</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 text-zinc-600 hover:bg-zinc-100 rounded-lg font-bold text-sm" href="orders.html">
+                <span class="material-symbols-outlined text-lg">payments</span>
+                <span>Orders</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 bg-white text-blue-600 shadow-sm rounded-lg font-bold text-sm" href="users.html">
+                <span class="material-symbols-outlined text-lg">group</span>
+                <span>User Management</span>
+            </a>
+        </nav>
+        
+        <div class="mt-auto pt-4 border-t border-zinc-200">
+            <button id="sign-out-btn" class="w-full flex items-center gap-3 px-3 py-2.5 text-red-500 hover:bg-red-50 rounded-lg font-bold text-sm transition-colors">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span>Sign Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="ml-64 min-h-screen">
+        <header class="h-20 bg-white border-b border-zinc-100 sticky top-0 z-40 flex items-center justify-between px-10">
+            <div>
+                <h2 class="text-xl font-black tracking-tight text-zinc-900">User Management</h2>
+                <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mt-0.5">Control access privileges</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" class="bg-zinc-900 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-lg shadow-zinc-900/10">
+                    <span class="material-symbols-outlined text-sm">person_add</span>
+                    Create New Curator
+                </button>
+                <div class="h-8 w-[1px] bg-zinc-200"></div>
+                <div id="user-info" class="flex items-center gap-3">
+                    <div class="text-right">
+                        <p id="user-email" class="text-xs font-bold text-zinc-900"></p>
+                        <p id="user-role-badge" class="text-[10px] text-blue-600 font-bold uppercase tracking-widest mt-0.5"></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Add User Modal -->
+        <div id="add-user-modal" class="fixed inset-0 bg-zinc-950/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
+            <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-8 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-black tracking-tight">Add New Curator</h3>
+                    <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-zinc-400 hover:text-zinc-600">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form id="add-user-form" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 ml-1">Email Address</label>
+                        <input required type="email" id="new-user-email" class="w-full rounded-xl border-zinc-200 text-sm py-2.5 px-4" placeholder="curator@getpotag.com">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 ml-1">Temporary Password</label>
+                        <input required type="password" id="new-user-password" class="w-full rounded-xl border-zinc-200 text-sm py-2.5 px-4" placeholder="••••••••">
+                    </div>
+                    <button type="submit" id="create-user-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="p-10 max-w-7xl mx-auto space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-zinc-50 border-b border-zinc-100">
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Curator</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Status</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Role</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-400 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-list" class="divide-y divide-zinc-50">
+                        <!-- Loading State -->
+                        <tr><td colspan="4" class="py-12 text-center text-zinc-400 font-medium italic">Fetching curators...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { checkAuth, signOut } from './src/authGuard.js';
+        import { supabase } from '../supabaseClient.js';
+
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+
+            const { session, profile } = auth;
+            
+            // Only Super Admins can access this page
+            if (profile.role !== 'super_admin') {
+                alert('Access Denied: Super Admin privileges required.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('user-email').textContent = session.user.email;
+            document.getElementById('user-role-badge').textContent = profile.role;
+            document.body.classList.remove('opacity-0');
+
+            loadUsers();
+        }
+
+        async function loadUsers() {
+            const { data: users, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error(error);
+                return;
+            }
+
+            const tbody = document.getElementById('users-list');
+            tbody.innerHTML = users.map(user => `
+                <tr class="hover:bg-zinc-50/50 transition-colors">
+                    <td class="px-6 py-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-sm text-zinc-400">person</span>
+                            </div>
+                            <span class="text-sm font-bold text-zinc-900">${user.email}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-5">
+                       <span class="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Active</span>
+                    </td>
+                    <td class="px-6 py-5">
+                        <select onchange="updateRole('${user.id}', this.value)" class="text-[10px] font-bold uppercase tracking-widest border-zinc-200 rounded-lg focus:ring-0 focus:border-zinc-300 py-1 pl-2 pr-8 bg-zinc-50">
+                            <option value="super_admin" ${user.role === 'super_admin' ? 'selected' : ''}>Super Admin</option>
+                            <option value="curator" ${user.role === 'curator' ? 'selected' : ''}>Curator</option>
+                            <option value="viewer" ${user.role === 'viewer' ? 'selected' : ''}>Viewer</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-5 text-right">
+                        <button class="text-[10px] font-bold text-red-400 hover:text-red-600 uppercase">Revoke Access</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.updateRole = async (userId, newRole) => {
+            const { error } = await supabase
+                .from('profiles')
+                .update({ role: newRole })
+                .eq('id', userId);
+
+            if (error) {
+                alert('Failed to update role: ' + error.message);
+            } else {
+                console.log('Role updated successfully');
+            }
+        };
+
+        document.getElementById('sign-out-btn').onclick = signOut;
+
+        init();
+
+        document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('new-user-email').value;
+            const password = document.getElementById('new-user-password').value;
+            const btn = document.getElementById('create-user-btn');
+
+            btn.innerText = 'Creating...';
+            btn.disabled = true;
+
+            // Note: In a production app, you'd use a service role to create users without auto-logging in.
+            // But for simple use, the Super Admin can sign them up.
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password
+            });
+
+            if (error) {
+                alert('Error creating user: ' + error.message);
+                btn.innerText = 'Create Account';
+                btn.disabled = false;
+            } else {
+                alert('User created successfully! They can now log in.');
+                document.getElementById('add-user-modal').classList.add('hidden');
+                document.getElementById('add-user-form').reset();
+                loadUsers();
+                btn.innerText = 'Create Account';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

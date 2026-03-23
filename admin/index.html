@@ -461,12 +461,14 @@
             // UI Updates based on Auth
             document.body.classList.remove('opacity-0');
             document.getElementById('user-display-email').textContent = session.user.email;
-            document.getElementById('user-display-role').textContent = profile.role;
-            document.getElementById('user-avatar-initials').textContent = session.user.email.substring(0, 2).toUpperCase();
+            document.getElementById('user-display-role').textContent = profile?.role || 'Curator';
+            
+            const initials = session.user.email.substring(0, 2).toUpperCase();
+            document.getElementById('user-avatar-initials').textContent = initials;
 
             // Role-based Navigation
-            if (profile.role === 'super_admin') {
-                document.getElementById('users-nav-item').classList.remove('hidden');
+            if (profile?.role === 'super_admin') {
+                document.getElementById('users-nav-item')?.classList.remove('hidden');
             }
 
             document.getElementById('sign-out-btn').onclick = signOut;

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment variables (contains Supabase keys — never commit this!)
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+
+# macOS
+.DS_Store
+
+# Admin Panel (Local Only)
+admin-*
+admin/

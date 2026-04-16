@@ -11,3 +11,7 @@ dist/
 
 # macOS
 .DS_Store
+
+# Admin Panel (Local Only)
+admin-*
+admin/

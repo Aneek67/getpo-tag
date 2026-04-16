@@ -73,31 +73,96 @@
         }
     </script>
 <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f9f9fb; color: #1a1c1d; }
-        .glass-nav { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .hero-gradient { background: linear-gradient(180deg, rgba(249,249,251,0) 0%, rgba(249,249,251,1) 90%); }
+        :root {
+            --primary: #0059b5;
+            --primary-container: #0071e3;
+            --surface: #f9f9fb;
+            --on-surface: #1a1c1d;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--surface); color: var(--on-surface); }
+        .glass-nav { 
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px) saturate(180%); 
+            -webkit-backdrop-filter: blur(24px) saturate(180%); 
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .hero-gradient { background: linear-gradient(180deg, rgba(249,249,251,0) 0%, rgba(249,249,251,1) 100%); }
         .mask-image-bottom { mask-image: linear-gradient(to bottom, black 70%, transparent 100%); }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+
+        /* Premium Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .card-hover { transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .card-hover:hover { transform: scale(1.03) translateY(-10px); }
+
+        .btn-glow { position: relative; overflow: hidden; }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.6s;
+            opacity: 0;
+        }
+        .btn-glow:hover::after { left: 100%; opacity: 1; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(3deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(3deg); }
+        }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    
     </style>
 </head>
 <body class="bg-surface text-on-surface antialiased">
 <!-- Top Navigation Bar -->
-    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-6 font-sans tracking-tight">
-        <a href="index.html" class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50">Getpo Tag</a>
-        <div class="hidden md:flex items-center gap-8 font-medium">
-            <a href="index.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Market</a>
-            <a href="archive.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Comics</a>
-            <a href="track.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Track Order</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <div class="relative group hidden md:block">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                    <span class="material-symbols-outlined text-zinc-400 text-sm">search</span>
-                </div>
-                <input class="pl-10 pr-4 py-1.5 bg-zinc-100 dark:bg-zinc-800 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-48 transition-all focus:w-64" placeholder="Search archive..." type="text"/>
+    <header class="fixed top-0 w-full z-50 glass-nav h-20 flex items-center justify-between px-10 font-sans tracking-tight transition-all duration-300" id="main-header">
+        <a href="index.html" class="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
+            <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                <span class="text-white text-lg">G</span>
             </div>
-            <a href="cart.html" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center">
+            Getpo Tag
+        </a>
+        <div class="hidden md:flex items-center gap-10 font-bold text-xs uppercase tracking-widest">
+            <a href="index.html" class="group relative py-2">
+                <span class="text-zinc-900 transition-colors">Market</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+            </a>
+            <a href="archive.html" class="group relative py-2">
+                <span class="text-zinc-400 group-hover:text-zinc-900 transition-colors">Comics</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+            </a>
+            <a href="track.html" class="group relative py-2">
+                <span class="text-zinc-400 group-hover:text-zinc-900 transition-colors">Track Order</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+            </a>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="relative group hidden md:block">
+                <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-zinc-400 text-lg">search</span>
+                </div>
+                <input class="pl-12 pr-6 py-2.5 bg-zinc-100/50 border border-transparent rounded-full text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/10 w-48 transition-all focus:w-72" placeholder="Search archive..." type="text"/>
+            </div>
+            <a href="cart.html" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 transition-all text-zinc-500 hover:text-primary relative">
                 <span class="material-symbols-outlined">shopping_bag</span>
+                <span class="absolute top-1 right-1 w-4 h-4 bg-primary text-white text-[8px] flex items-center justify-center rounded-full font-bold">0</span>
             </a>
         </div>
     </header>
@@ -107,23 +172,27 @@
 <img alt="Sci-fi noir comic cover background" class="w-full h-full object-cover mask-image-bottom opacity-90 scale-105" data-alt="Cinematic sci-fi noir city landscape with neon highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgzwKoDdXoQ-58MqfKW05lCJRgAn1on5QTPnRen3AOkk0pEUaqdQ9Wf9xAbJ-jdP_REl44AahCO-ZwJL_1xGbqONGrUSnVXPUXabCVRIH44XvaYJsJwTp-YUgfA9Od-hdHoSEROfIIjxPsLzVa_SdFngyltFJhKxVE2pZ8LGsL-AiEuZSwg2gFc79rEZtbGLLSfkVOanZObEB8dPEXesJaxaY3iZ1x6AfbWo7e_oSKdNHn2FQnqxp3IHNEuOF0WNW6G_fvqT9lwAw"/>
 <div class="absolute inset-0 hero-gradient"></div>
 </div>
-<div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col md:flex-row items-end md:items-center gap-12">
-<div class="w-full md:w-1/2 space-y-6">
-<div class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold tracking-widest uppercase">Special Edition Premiere</div>
-<h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-on-surface">THE LAST<br/>SENTINEL</h1>
-<p class="text-on-surface-variant text-lg md:text-xl max-w-md font-medium leading-relaxed">
-                    A haunting neon-noir journey through the last breathing city on Earth. Collector's oversized hardback now available.
-                </p>
-<div class="flex items-center gap-4 pt-4">
-<a id="hero-get-issue" href="archive.html" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-bold text-sm shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center">Get the Issue</a>
-<a id="hero-view-details" href="archive.html" class="px-8 py-4 bg-surface-container-high/40 backdrop-blur-md text-on-surface rounded-full font-bold text-sm hover:bg-surface-container-high transition-colors text-center">View Details</a>
-</div>
-</div>
-<div class="hidden md:block w-1/2">
-<div class="relative group cursor-pointer">
-<img alt="The Last Sentinel Comic Cover" class="rounded-xl shadow-2xl transform rotate-3 group-hover:rotate-0 transition-all duration-700 h-[600px] w-auto mx-auto border-outline-variant/10 border" data-alt="Sleek comic book cover with futuristic armor and noir lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYfuh6kzAujjCrLAy4HEppY3N08dm9Q3WEyZBlKRkzUiES48fo9m_R14ZsMOn3-gMlDSoSEvkwIyt_pLBV_H7WOzi0sH0_JfQG4q9b2Vb5wMqLXoU7vUdM6EpUKo3YGaec1_EZz-P2LwkGhlR6AP6lS4gOBjs2PG1CUq15O15XKvMQbdhcXqahxltYHTUV9HYHHwSQ6LWCoTBzWn-4_DznF8wDaoq6-2LNEl_lrcAGzStGqQSuqDY_1J6vzYi7637wT4wABRghbg0"/>
-</div>
-</div>
+<div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-20">
+    <div class="w-full md:w-1/2 space-y-8 reveal active">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-full text-[10px] font-black tracking-widest uppercase border border-primary/10">
+            <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+            Special Edition Premiere
+        </div>
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] text-on-surface">THE LAST<br/><span class="text-primary italic">SENTINEL</span></h1>
+        <p class="text-on-surface-variant text-lg md:text-xl max-w-lg font-medium leading-relaxed">
+            A haunting neon-noir journey through the last breathing city on Earth. Collector's oversized hardback now available.
+        </p>
+        <div class="flex items-center gap-6 pt-6">
+            <a id="hero-get-issue" href="archive.html" class="btn-glow px-10 py-5 bg-black text-white rounded-2xl font-bold text-sm shadow-2xl shadow-primary/30 hover:-translate-y-1 transition-all text-center min-w-[200px]">Get the Issue</a>
+            <a id="hero-view-details" href="archive.html" class="px-10 py-5 bg-white/40 backdrop-blur-md text-on-surface border border-black/5 rounded-2xl font-bold text-sm hover:bg-white transition-all text-center min-w-[200px]">View Details</a>
+        </div>
+    </div>
+    <div class="hidden md:block w-1/2 reveal active" style="transition-delay: 0.2s">
+        <div class="relative group cursor-pointer float-anim">
+            <div class="absolute -inset-4 bg-primary/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
+            <img alt="The Last Sentinel Comic Cover" class="relative rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transform rotate-3 group-hover:rotate-0 transition-all duration-700 h-[650px] w-auto mx-auto border-white/20 border-2" data-alt="Sleek comic book cover with futuristic armor and noir lighting" id="hero-main-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYfuh6kzAujjCrLAy4HEppY3N08dm9Q3WEyZBlKRkzUiES48fo9m_R14ZsMOn3-gMlDSoSEvkwIyt_pLBV_H7WOzi0sH0_JfQG4q9b2Vb5wMqLXoU7vUdM6EpUKo3YGaec1_EZz-P2LwkGhlR6AP6lS4gOBjs2PG1CUq15O15XKvMQbdhcXqahxltYHTUV9HYHHwSQ6LWCoTBzWn-4_DznF8wDaoq6-2LNEl_lrcAGzStGqQSuqDY_1J6vzYi7637wT4wABRghbg0"/>
+        </div>
+    </div>
 </div>
 </section>
 <!-- Available Now (Masonry-ish Grid) -->
@@ -241,12 +310,12 @@
 
         // 1. Hero Section (Feature the latest item)
         const latest = allItems[0];
-        const heroTitle = document.querySelector('h1.text-6xl');
+        const heroTitle = document.querySelector('h1.text-7xl');
         const heroDesc = document.querySelector('section p.text-on-surface-variant');
-        const heroImage = document.querySelector('section .md\\:block img');
+        const heroImage = document.getElementById('hero-main-img');
         const heroBg = document.querySelector('section .absolute img');
         
-        if (heroTitle) heroTitle.innerHTML = latest.title.toUpperCase().replace(' ', '<br/>');
+        if (heroTitle) heroTitle.innerHTML = `${latest.title.toUpperCase().split(' ').slice(0, -1).join(' ')}<br/><span class="text-primary italic">${latest.title.toUpperCase().split(' ').pop()}</span>`;
         if (heroDesc) heroDesc.textContent = latest.subtitle || 'A masterpiece of contemporary comic art, now available for your collection.';
         if (heroImage) heroImage.src = latest.image_url;
         if (heroBg) heroBg.src = latest.image_url;
@@ -256,15 +325,18 @@
 
         // 2. Curated Picks (Latest 4 items)
         const grid = document.getElementById('featured-grid');
-        grid.innerHTML = allItems.slice(0, 4).map(item => `
-            <a href="product.html?id=${item.id}" class="flex flex-col gap-4 group cursor-pointer block">
-                <div class="aspect-[2/3] bg-surface-container-low rounded-xl overflow-hidden relative shadow-sm hover:shadow-xl transition-all duration-500">
-                    <img src="${item.image_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+        grid.innerHTML = allItems.slice(0, 4).map((item, idx) => `
+            <a href="product.html?id=${item.id}" class="flex flex-col gap-6 group cursor-pointer block card-hover reveal active" style="transition-delay: ${idx * 0.1}s">
+                <div class="aspect-[2/3] bg-zinc-100 rounded-3xl overflow-hidden relative shadow-2xl shadow-zinc-200 hover:shadow-primary/20 transition-all duration-700">
+                    <img src="${item.image_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
-                <div class="px-1">
-                    <h3 class="text-base font-bold tracking-tight text-on-surface group-hover:text-primary transition-colors">${item.title}</h3>
-                    <p class="text-on-surface-variant text-xs font-medium">${item.subtitle || 'Artist Showcase'}</p>
-                    <div class="mt-2 text-sm font-bold text-on-surface">${formatPrice(item.price)}</div>
+                <div class="px-2 space-y-2">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-xl font-black tracking-tight text-on-surface leading-tight">${item.title}</h3>
+                        <div class="text-sm font-black text-primary">${formatPrice(item.price)}</div>
+                    </div>
+                    <p class="text-zinc-400 text-xs font-bold uppercase tracking-widest">${item.author || 'Original Art'}</p>
                 </div>
             </a>
         `).join('');
@@ -279,33 +351,37 @@
             if (preordersSection) preordersSection.style.display = 'block';
             
             const displayPreorders = preorders;
-            const bentoGrid = document.querySelector('section.bg-surface-container-low .grid');
+            const bentoGrid = document.querySelector('#preorders-section .grid');
             if (bentoGrid && displayPreorders.length > 0) {
                 const mainPo = displayPreorders[0];
                 bentoGrid.innerHTML = `
-                <div class="md:col-span-8 group relative rounded-[2rem] overflow-hidden bg-surface-container-lowest h-[500px] flex flex-col justify-end p-12 transition-all">
-                    <img alt="${mainPo.title}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms]" src="${mainPo.image_url}"/>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                    <div class="relative z-10 text-white space-y-4 max-w-lg">
-                        <div class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/70">${mainPo.tag || 'Arriving Soon'}</div>
-                        <h3 class="text-5xl font-black tracking-tighter leading-none">${mainPo.title.toUpperCase()}</h3>
-                        <p class="text-white/80 font-medium">${mainPo.subtitle || 'Exclusive pre-order edition available now.'}</p>
-                        <a href="product.html?id=${mainPo.id}" class="inline-block bg-white text-black px-6 py-2.5 rounded-full font-bold text-sm hover:bg-white/90 transition-colors text-center">Pre-order for ${formatPrice(mainPo.price)}</a>
+                <div class="md:col-span-8 group relative rounded-[3rem] overflow-hidden bg-black h-[600px] flex flex-col justify-end p-16 transition-all reveal">
+                    <img alt="${mainPo.title}" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-[3000ms] ease-out" src="${mainPo.image_url}"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="relative z-10 text-white space-y-6 max-w-xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black tracking-[0.2em] uppercase text-white/90 border border-white/10">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                            ${mainPo.tag || 'Arriving Soon'}
+                        </div>
+                        <h3 class="text-7xl font-black tracking-tighter leading-none">${mainPo.title.toUpperCase()}</h3>
+                        <p class="text-white/60 text-lg font-medium leading-relaxed">${mainPo.subtitle || 'Exclusive pre-order edition available now.'}</p>
+                        <a href="product.html?id=${mainPo.id}" class="inline-block bg-white text-black px-10 py-5 rounded-2xl font-black text-sm hover:bg-zinc-100 transition-all transform hover:-translate-y-1 text-center shadow-2xl">Pre-order for ${formatPrice(mainPo.price)}</a>
                     </div>
                 </div>
                 ${displayPreorders[1] ? `
-                <div class="md:col-span-4 group relative rounded-[2rem] overflow-hidden bg-zinc-900 h-[500px] flex flex-col p-10">
-                    <div class="relative z-10 text-white space-y-2 mb-6">
-                        <div class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">${displayPreorders[1].tag || 'Exclusive'}</div>
-                        <h3 class="text-3xl font-bold tracking-tight text-white">${displayPreorders[1].title}</h3>
-                        <p class="text-white/60 text-sm">${formatPrice(displayPreorders[1].price)}</p>
+                <div class="md:col-span-4 group relative rounded-[3rem] overflow-hidden bg-zinc-900 h-[600px] flex flex-col p-12 transition-all reveal" style="transition-delay: 0.2s">
+                    <div class="relative z-10 text-white space-y-4 mb-8">
+                        <div class="text-[10px] font-black tracking-[0.3em] uppercase text-white/30">${displayPreorders[1].tag || 'Exclusive'}</div>
+                        <h3 class="text-4xl font-black tracking-tight text-white leading-tight">${displayPreorders[1].title}</h3>
+                        <p class="text-primary text-lg font-black">${formatPrice(displayPreorders[1].price)}</p>
                     </div>
-                    <div class="mt-auto h-[250px] relative overflow-hidden rounded-xl">
-                        <img src="${displayPreorders[1].image_url}" class="w-full h-full object-cover transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700"/>
+                    <div class="mt-auto h-[350px] relative overflow-hidden rounded-[2.5rem] shadow-2xl">
+                        <img src="${displayPreorders[1].image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms] pointer-events-none"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent"></div>
                     </div>
-                    <div class="absolute bottom-10 right-10 z-20">
-                        <a href="product.html?id=${displayPreorders[1].id}" class="w-12 h-12 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                            <span class="material-symbols-outlined">add</span>
+                    <div class="absolute bottom-12 right-12 z-20">
+                        <a href="product.html?id=${displayPreorders[1].id}" class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-black hover:bg-primary hover:text-white transition-all shadow-2xl rotate-12 group-hover:rotate-0 transform">
+                            <span class="material-symbols-outlined text-2xl">arrow_forward</span>
                         </a>
                     </div>
                 </div>` : ''}
@@ -313,8 +389,28 @@
             }
         }
 
+        // Scroll Reveal Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
 
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('h-16', 'bg-white/90');
+                header.classList.remove('h-20', 'bg-rgba(255, 255, 255, 0.7)');
+            } else {
+                header.classList.add('h-20', 'bg-rgba(255, 255, 255, 0.7)');
+                header.classList.remove('h-16', 'bg-white/90');
+            }
+        });
     }
 
     loadHomepage();

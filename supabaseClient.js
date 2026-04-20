@@ -15,7 +15,18 @@ function createMockClient() {
         },
         from: (table) => ({
             select: (columns, options) => {
-                const data = JSON.parse(localStorage.getItem(`mock_${table}`)) || [];
+                let data = JSON.parse(localStorage.getItem(`mock_${table}`)) || [];
+                
+                // Initialize mock data if empty
+                if (data.length === 0) {
+                    if (table === 'events') {
+                        data = [
+                            { id: 'ev1', title: 'Midnight Comic Con', date: '2024-08-15', location: 'Mumbai, India', description: 'Experience the largest gathering of comic creators and fans in the country.', link: 'https://example.com/tickets', image_url: 'https://via.placeholder.com/600x400?text=Comic+Con' },
+                            { id: 'ev2', title: 'Artist Showcase: Neon Noir', date: '2024-09-10', location: 'Bengaluru, India', description: 'Join us for an exclusive gallery night featuring the latest original art from Getpo Tag artists.', link: null, image_url: 'https://via.placeholder.com/600x400?text=Artist+Showcase' }
+                        ];
+                        localStorage.setItem(`mock_events`, JSON.stringify(data));
+                    }
+                }
                 const result = {
                     data: options?.head ? null : data,
                     count: data.length,

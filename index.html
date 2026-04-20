@@ -247,6 +247,22 @@
 </div>
 </section>
 
+<!-- Community Events (Live experiences) -->
+<section id="events-section" class="py-24 bg-surface-container-lowest">
+<div class="max-w-[1200px] mx-auto px-6">
+    <div class="flex justify-between items-end mb-12">
+        <div>
+            <span class="text-primary font-bold tracking-widest text-[10px] uppercase block mb-2">Live Experiences</span>
+            <h2 class="text-4xl font-bold tracking-tight">Community Events</h2>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="events-grid">
+        <div class="col-span-full text-center py-12 text-zinc-400">Loading upcoming conventions and meetups...</div>
+    </div>
+</div>
+</section>
+
+
 <!-- Footer -->
 <footer class="w-full pt-24 pb-12 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800">
 <div class="max-w-[1200px] mx-auto px-6">
@@ -386,6 +402,47 @@
                 </div>` : ''}
             `;
             }
+        }
+
+        // 4. Events (Latest 3 events)
+        const { data: events, error: eventsError } = await supabase
+            .from('events')
+            .select('*')
+            .order('date', { ascending: true })
+            .limit(3);
+
+        const eventsGrid = document.getElementById('events-grid');
+        const eventsSection = document.getElementById('events-section');
+
+        if (eventsError || !events || events.length === 0) {
+            if (eventsSection) eventsSection.style.display = 'none';
+        } else {
+            if (eventsSection) eventsSection.style.display = 'block';
+            eventsGrid.innerHTML = events.map((event, idx) => `
+                <div class="group bg-white rounded-[2rem] overflow-hidden border border-zinc-100 shadow-sm hover:shadow-xl transition-all duration-500 reveal active" style="transition-delay: ${idx * 0.1}s">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${event.image_url}" alt="${event.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]">
+                        <div class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black tracking-widest uppercase">
+                            ${new Date(event.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                        </div>
+                    </div>
+                    <div class="p-8 space-y-4">
+                        <div class="space-y-1">
+                            <h3 class="text-xl font-black tracking-tight text-on-surface line-clamp-1">${event.title}</h3>
+                            <p class="text-primary text-[10px] font-black uppercase tracking-widest">${event.location}</p>
+                        </div>
+                        <p class="text-zinc-500 text-sm font-medium line-clamp-2 leading-relaxed">${event.description}</p>
+                        ${event.link ? `
+                        <div class="pt-2">
+                             <a href="${event.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-zinc-900 font-black text-xs uppercase tracking-widest group/btn hover:text-primary transition-colors">
+                                Learn More
+                                <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                             </a>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
         }
 
         // Scroll Reveal Logic

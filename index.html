@@ -169,11 +169,12 @@
 <!-- Hero Section: The Last Sentinel -->
 <section class="relative w-full h-[972px] flex items-center overflow-hidden bg-surface">
 <div class="absolute inset-0 z-0">
-<img alt="Sci-fi noir comic cover background" class="w-full h-full object-cover mask-image-bottom opacity-90 scale-105" data-alt="Cinematic sci-fi noir city landscape with neon highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgzwKoDdXoQ-58MqfKW05lCJRgAn1on5QTPnRen3AOkk0pEUaqdQ9Wf9xAbJ-jdP_REl44AahCO-ZwJL_1xGbqONGrUSnVXPUXabCVRIH44XvaYJsJwTp-YUgfA9Od-hdHoSEROfIIjxPsLzVa_SdFngyltFJhKxVE2pZ8LGsL-AiEuZSwg2gFc79rEZtbGLLSfkVOanZObEB8dPEXesJaxaY3iZ1x6AfbWo7e_oSKdNHn2FQnqxp3IHNEuOF0WNW6G_fvqT9lwAw"/>
+<img alt="Background" class="w-full h-full object-cover mask-image-bottom opacity-60 md:opacity-90 scale-105" id="hero-bg-img" src=""/>
 <div class="absolute inset-0 hero-gradient"></div>
+<div class="absolute inset-0 bg-surface/70 backdrop-blur-2xl md:hidden"></div>
 </div>
 <div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-20 min-w-0">
-    <div class="w-full md:w-1/2 space-y-8 reveal active min-w-0">
+    <div class="w-full md:w-1/2 space-y-8 reveal active min-w-0 overflow-hidden">
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-full text-[10px] font-black tracking-widest uppercase border border-primary/10">
             <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
             Special Edition Premiere
@@ -325,7 +326,7 @@
 
         // 1. Hero Section (Feature the latest item)
         const latest = allItems[0];
-        const heroTitle = document.querySelector('h1.text-7xl');
+        const heroTitle = document.querySelector('h1.font-black.tracking-tighter');
         const heroDesc = document.querySelector('section p.text-on-surface-variant');
         const heroImage = document.getElementById('hero-main-img');
         const heroBg = document.querySelector('section .absolute img');

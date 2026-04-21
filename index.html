@@ -130,7 +130,7 @@
     
     </style>
 </head>
-<body class="bg-surface text-on-surface antialiased">
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
 <!-- Top Navigation Bar -->
     <header class="fixed top-0 w-full z-50 glass-nav h-20 flex items-center justify-between px-10 font-sans tracking-tight transition-all duration-300" id="main-header">
         <a href="index.html" class="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
@@ -172,14 +172,14 @@
 <img alt="Sci-fi noir comic cover background" class="w-full h-full object-cover mask-image-bottom opacity-90 scale-105" data-alt="Cinematic sci-fi noir city landscape with neon highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgzwKoDdXoQ-58MqfKW05lCJRgAn1on5QTPnRen3AOkk0pEUaqdQ9Wf9xAbJ-jdP_REl44AahCO-ZwJL_1xGbqONGrUSnVXPUXabCVRIH44XvaYJsJwTp-YUgfA9Od-hdHoSEROfIIjxPsLzVa_SdFngyltFJhKxVE2pZ8LGsL-AiEuZSwg2gFc79rEZtbGLLSfkVOanZObEB8dPEXesJaxaY3iZ1x6AfbWo7e_oSKdNHn2FQnqxp3IHNEuOF0WNW6G_fvqT9lwAw"/>
 <div class="absolute inset-0 hero-gradient"></div>
 </div>
-<div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-20">
-    <div class="w-full md:w-1/2 space-y-8 reveal active">
+<div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-20 min-w-0">
+    <div class="w-full md:w-1/2 space-y-8 reveal active min-w-0">
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-full text-[10px] font-black tracking-widest uppercase border border-primary/10">
             <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
             Special Edition Premiere
         </div>
-        <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] text-on-surface">THE LAST<br/><span class="text-primary italic">SENTINEL</span></h1>
-        <p class="text-on-surface-variant text-lg md:text-xl max-w-lg font-medium leading-relaxed break-words break-all">
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] text-on-surface break-words break-all w-full min-w-0">THE LAST<br/><span class="text-primary italic">SENTINEL</span></h1>
+        <p class="text-on-surface-variant text-lg md:text-xl w-full max-w-full min-w-0 font-medium leading-relaxed break-words break-all">
             A haunting neon-noir journey through the last breathing city on Earth. Collector's oversized hardback now available.
         </p>
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 pt-6 w-full">
@@ -378,8 +378,8 @@
                             <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
                             ${mainPo.tag || 'Arriving Soon'}
                         </div>
-                        <h3 class="text-7xl font-black tracking-tighter leading-none">${mainPo.title.toUpperCase()}</h3>
-                        <p class="text-white/60 text-lg font-medium leading-relaxed">${mainPo.subtitle || 'Exclusive pre-order edition available now.'}</p>
+                        <h3 class="text-7xl font-black tracking-tighter leading-none break-words break-all w-full min-w-0">${mainPo.title.toUpperCase()}</h3>
+                        <p class="text-white/60 text-lg font-medium leading-relaxed break-words break-all w-full min-w-0">${mainPo.subtitle || 'Exclusive pre-order edition available now.'}</p>
                         <a href="product.html?id=${mainPo.id}" class="inline-block bg-white text-black px-10 py-5 rounded-2xl font-black text-sm hover:bg-zinc-100 transition-all transform hover:-translate-y-1 text-center shadow-2xl">Pre-order for ${formatPrice(mainPo.price)}</a>
                     </div>
                 </div>

@@ -305,14 +305,15 @@
 </div>
 </footer>
 <script type="module">
-    import { supabase } from './supabaseClient.js'; // Verified Root Path
+    import { supabase } from './supabaseClient.js';
+import { initOfferBanner, formatPriceWithOffer } from './offer.js'; // Verified Root Path
 
     function formatPrice(price) {
-        const inr = price * 83;
-        return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        return formatPriceWithOffer(price);
     }
 
     async function loadHomepage() {
+        await initOfferBanner();
         const { data: allItems, error } = await supabase
             .from('items')
             .select('*')

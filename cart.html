@@ -219,10 +219,10 @@
 
 <script type="module">
     import { supabase } from './supabaseClient.js';
+import { initOfferBanner, formatPriceWithOffer } from './offer.js';
 
     function formatPrice(price) {
-        const inr = price * 83;
-        return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        return formatPriceWithOffer(price);
     }
 
     let currentItemId = null;
@@ -318,7 +318,7 @@
             </div>
         `;
 
-        document.getElementById('cart-subtotal').innerText = formatPrice(item.price);
+        document.getElementById('cart-subtotal').innerHTML = formatPrice(item.price);
         updateTotal();
     }
 

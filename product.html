@@ -142,14 +142,15 @@
 </div>
 
 <script type="module">
-    import { supabase } from './supabaseClient.js'; // Root Path Verified
+    import { supabase } from './supabaseClient.js';
+import { initOfferBanner, formatPriceWithOffer } from './offer.js'; // Root Path Verified
 
     function formatPrice(price) {
-        const inr = price * 83;
-        return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        return formatPriceWithOffer(price);
     }
 
     async function initProduct() {
+        await initOfferBanner();
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
 
@@ -183,7 +184,7 @@
         document.getElementById('product-artist').innerText = item.author ? `By ${item.author}` : 'Artist Unknown';
         document.getElementById('product-subtitle').innerText = item.subtitle || 'Collector\'s Issue';
         document.getElementById('product-tag').innerText = item.tag || 'Standard Issue';
-        document.getElementById('product-price').innerText = formatPrice(item.price);
+        document.getElementById('product-price').innerHTML = formatPrice(item.price);
 
         // Update Sticky bar
         const stickyTitle = document.querySelector('.fixed.bottom-0 .sm\\:flex .font-bold');
@@ -191,7 +192,7 @@
         const stickyStatus = document.querySelector('.fixed.bottom-0 .text-xs');
         
         if (stickyTitle) stickyTitle.innerText = item.title;
-        if (stickyPrice) stickyPrice.innerText = formatPrice(item.price);
+        if (stickyPrice) stickyPrice.innerHTML = formatPrice(item.price);
         if (stickyStatus) stickyStatus.innerText = item.tag || 'Available Now';
 
         // Update Links

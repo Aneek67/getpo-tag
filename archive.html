@@ -72,11 +72,12 @@
   </footer>
 
 <script type="module">
-  import { supabase } from './supabaseClient.js'; // Path Standardized to Root
+  import { supabase } from './supabaseClient.js';
+import { initOfferBanner, formatPriceWithOffer } from './offer.js'; // Path Standardized to Root
 
   function formatPrice(price) {
-    const inr = price * 83;
-    return `₹${inr.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        return formatPriceWithOffer(price);
+    })}`;
   }
 
   let allItems = [];

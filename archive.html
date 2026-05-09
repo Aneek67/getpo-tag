@@ -77,7 +77,6 @@ import { initOfferBanner, formatPriceWithOffer } from './offer.js'; // Path Stan
 
   function formatPrice(price) {
         return formatPriceWithOffer(price);
-    })}`;
   }
 
   let allItems = [];
@@ -111,6 +110,7 @@ import { initOfferBanner, formatPriceWithOffer } from './offer.js'; // Path Stan
   }
 
   async function loadComics() {
+    await initOfferBanner();
     const { data: items, error } = await supabase
       .from('items')
       .select('*')

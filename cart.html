@@ -219,7 +219,7 @@
 
 <script type="module">
     import { supabase } from './supabaseClient.js';
-import { initOfferBanner, formatPriceWithOffer } from './offer.js';
+import { activeOffer, initOfferBanner, formatPriceWithOffer } from './offer.js';
 
     function formatPrice(price) {
         return formatPriceWithOffer(price);
@@ -260,20 +260,36 @@ import { initOfferBanner, formatPriceWithOffer } from './offer.js';
 
 
     function updateTotal() {
-        const subtotalInr = currentItemPrice * 83;
-        let total = subtotalInr;
+        const originalSubtotal = currentItemPrice * 83;
+        let subtotalInr = originalSubtotal;
+        let originalTotal = originalSubtotal;
 
         if (currentDeliveryMode === 'ship') {
-            total += SHIPPING_INR;
+            originalTotal += SHIPPING_INR;
             document.getElementById('shipping-row').classList.remove('hidden');
         } else {
             document.getElementById('shipping-row').classList.add('hidden');
         }
 
-        document.getElementById('cart-total').innerText = `₹${total.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        if (activeOffer && activeOffer.discount_percentage) {
+            subtotalInr = subtotalInr * (1 - (activeOffer.discount_percentage / 100));
+        }
+
+        let total = subtotalInr;
+        if (currentDeliveryMode === 'ship') {
+            total += SHIPPING_INR;
+        }
+
+        const cartTotalEl = document.getElementById('cart-total');
+        if (activeOffer && activeOffer.discount_percentage) {
+            cartTotalEl.innerHTML = `<span class="line-through text-zinc-400 text-[0.6em] font-normal mr-2">₹${originalTotal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span><span class="text-error font-black">₹${total.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>`;
+        } else {
+            cartTotalEl.innerText = `₹${total.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        }
     }
 
     async function initCart() {
+        await initOfferBanner();
         const urlParams = new URLSearchParams(window.location.search);
         currentItemId = urlParams.get('id');
 

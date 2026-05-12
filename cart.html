@@ -156,14 +156,29 @@
         <input id="flat-number" class="bg-surface-container-high border-none rounded-xl py-4 px-6 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Flat / House Number" type="text"/>
     </div>
 </div>
-<!-- Pickup: Static address info (only shown for pickup) -->
+<!-- Pickup: Selection and address info (only shown for pickup) -->
 <div id="pickup-address-info" class="md:col-span-2 hidden">
-    <div class="flex items-start gap-4 p-5 bg-surface-container-low rounded-xl border border-outline-variant/20">
-        <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
-        <div>
-            <p class="text-sm font-bold text-on-surface mb-1">Pick-up Location</p>
-            <p class="text-sm text-on-surface-variant leading-relaxed">Ninth Block, 1005, 10th Floor</p>
-            <p class="text-xs text-primary font-medium mt-2">Free pick-up · No shipping charge</p>
+    <div class="space-y-4">
+        <label class="text-xs label-sm text-on-surface-variant tracking-widest uppercase">PICK-UP LOCATION</label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="relative flex items-start gap-4 p-5 bg-surface-container-low rounded-xl border-2 border-primary cursor-pointer transition-all" id="label-pickup-9th">
+                <input type="radio" name="pickup-location" value="9th-block" checked class="mt-1 text-primary focus:ring-primary/20 border-zinc-300" onchange="updatePickupDisplay('9th-block')">
+                <div>
+                    <p class="text-sm font-bold text-on-surface">Ninth Block</p>
+                    <p class="text-xs text-on-surface-variant mt-1">1005, 10th Floor</p>
+                </div>
+            </label>
+            <label class="relative flex items-start gap-4 p-5 bg-zinc-50 rounded-xl border border-outline-variant/30 cursor-pointer hover:border-primary/50 transition-all" id="label-pickup-6th">
+                <input type="radio" name="pickup-location" value="6th-block" class="mt-1 text-primary focus:ring-primary/20 border-zinc-300" onchange="updatePickupDisplay('6th-block')">
+                <div>
+                    <p class="text-sm font-bold text-on-surface">6 Block Lobby</p>
+                    <p class="text-xs text-on-surface-variant mt-1">Main Entrance</p>
+                </div>
+            </label>
+        </div>
+        <div class="flex items-center gap-3 p-4 bg-blue-50/50 rounded-xl border border-blue-100">
+            <span class="material-symbols-outlined text-blue-600 text-lg">schedule</span>
+            <p class="text-xs font-bold text-blue-700">Available only at 5:30 PM and 6:30 PM</p>
         </div>
     </div>
 </div>
@@ -254,6 +269,22 @@ import { activeOffer, initOfferBanner, formatPriceWithOffer } from './offer.js';
         updateTotal();
     };
 
+    window.updatePickupDisplay = function(selection) {
+        const label9th = document.getElementById('label-pickup-9th');
+        const label6th = document.getElementById('label-pickup-6th');
+        
+        if (selection === '9th-block') {
+            label9th.classList.add('border-primary', 'bg-surface-container-low');
+            label9th.classList.remove('border-outline-variant/30', 'bg-zinc-50');
+            label6th.classList.remove('border-primary', 'bg-surface-container-low');
+            label6th.classList.add('border-outline-variant/30', 'bg-zinc-50');
+        } else {
+            label6th.classList.add('border-primary', 'bg-surface-container-low');
+            label6th.classList.remove('border-outline-variant/30', 'bg-zinc-50');
+            label9th.classList.remove('border-primary', 'bg-surface-container-low');
+            label9th.classList.add('border-outline-variant/30', 'bg-zinc-50');
+        }
+    };
 
     function updateTotal() {
         const originalSubtotal = currentItemPrice * 83;
@@ -358,9 +389,15 @@ import { activeOffer, initOfferBanner, formatPriceWithOffer } from './offer.js';
                 return;
             }
         } else {
-            // Pickup: use static store address
-            blockNumber = 'Ninth Block';
-            flatNumber = '1005, 10th Floor';
+            // Pickup: use selected pickup address
+            const selectedLocation = document.querySelector('input[name="pickup-location"]:checked').value;
+            if (selectedLocation === '9th-block') {
+                blockNumber = 'Ninth Block';
+                flatNumber = '1005, 10th Floor';
+            } else {
+                blockNumber = '6 Block Lobby';
+                flatNumber = 'Main Entrance';
+            }
         }
 
 

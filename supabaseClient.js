@@ -82,7 +82,18 @@ function createMockClient() {
     };
 }
 
+const isAdminPage = typeof window !== 'undefined' && window.location.pathname.includes('admin-');
+const clientOptions = {};
+
+if (isAdminPage && import.meta.env.VITE_ADMIN_SECRET) {
+    clientOptions.global = {
+        headers: {
+            'x-admin-secret': import.meta.env.VITE_ADMIN_SECRET
+        }
+    };
+}
+
 export const supabase = (supabaseUrl && supabaseAnonKey) 
-    ? createClient(supabaseUrl, supabaseAnonKey) 
+    ? createClient(supabaseUrl, supabaseAnonKey, clientOptions) 
     : createMockClient();
 
